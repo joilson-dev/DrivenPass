@@ -15,3 +15,19 @@ export async function signIn(
     next(error);
   }
 }
+
+export async function signUp(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  const { name, email, password } = req.body;
+
+  try {
+    const newUser = await authService.createUser(name, email, password);
+
+    res.status(201).json({ message: 'Usuário criado com sucesso', user: newUser });
+  } catch (error) {
+    next(error);
+  }
+}

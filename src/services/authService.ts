@@ -1,6 +1,8 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { findUserByEmail } from '../repositories/authRepository';
+import * as userRepository from '../repositories/userRepository';
+
 
 export async function signInService(email: string, password: string): Promise<string> {
   const user = await findUserByEmail(email);
@@ -21,4 +23,20 @@ export async function signInService(email: string, password: string): Promise<st
   );
 
   return token;
+}
+
+export async function createUser(name: string, email: string, password: string) {
+
+  const existingUser = await userRepository.findUserByEmail(email);
+
+  if (existingUser) {
+    throw { type: 'Conflict', message: 'E-mail já cadastrado' };
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+
+  const newUser = await userRepository.createUser(name, email, hashedPassword);
+
+  return newUser;
 }
