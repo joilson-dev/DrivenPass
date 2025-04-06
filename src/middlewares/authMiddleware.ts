@@ -1,24 +1,27 @@
 import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 
-export function authenticateToken(req: Request, res: Response, next: NextFunction): Response | void {
+export function authenticateToken(req: Request, res: Response, next: NextFunction): void {
   const token = req.headers['authorization']?.split(' ')[1];
 
   if (!token) {
-    return res.status(401).json({ message: 'Token não fornecido!' });
+    res.status(401).json({ message: 'Token não fornecido!' });
+    return;
   }
 
   jwt.verify(token, process.env.JWT_SECRET!, (err, decoded) => {
     if (err) {
-      return res.status(403).json({ message: 'Token inválido!' });
+      res.status(403).json({ message: 'Token inválido!' });
+      return;
     }
 
-    if (!decoded) {
-      return res.status(403).json({ message: 'Token inválido!' });
+    if (decoded) {
+      const user = decoded as { id: number; name: string; email: string };
+      req.user = user;
+    } else {
+      res.status(403).json({ message: 'Token inválido!' });
+      return;
     }
-
-    const user = decoded as { id: number; name: string; email: string };
-    req.user = user;
 
     next();
   });
