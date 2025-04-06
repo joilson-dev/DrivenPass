@@ -63,3 +63,7 @@ export async function updateCredential(
 
   return updatedCredential;
 }
+
+export async function deleteCredential(credentialId: number, userId: number) {
+  await credentialRepository.deleteCredential(credentialId, userId);
+}

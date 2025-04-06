@@ -55,3 +55,21 @@ export async function updateCredential(
     },
   });
 }
+
+export async function deleteCredential(credentialId: number, userId: number) {
+  const existingCredential = await prisma.credential.findUnique({
+    where: { id: credentialId },
+  });
+
+  if (!existingCredential) {
+    throw { type: 'NotFound', message: 'Credencial não encontrada' };
+  }
+
+  if (existingCredential.userId !== userId) {
+    throw { type: 'Forbidden', message: 'Você não tem permissão para excluir esta credencial' };
+  }
+
+  return prisma.credential.delete({
+    where: { id: credentialId },
+  });
+}

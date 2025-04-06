@@ -49,3 +49,23 @@ export async function updateCredential(req: Request, res: Response, next: NextFu
     next(error);
   }
 }
+
+export async function deleteCredential(req: Request, res: Response, next: NextFunction): Promise<void> {
+  const credentialId = parseInt(req.params.id, 10);
+
+  const userId = req.user.id;
+
+  if (isNaN(credentialId)) {
+    res.status(400).json({ message: 'ID de credencial inválido' });
+    return
+  }
+
+  try {
+
+    await credentialService.deleteCredential(credentialId, userId);
+
+    res.status(204).send();
+  } catch (error) {
+    next(error);
+  }
+}
