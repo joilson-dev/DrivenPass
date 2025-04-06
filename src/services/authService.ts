@@ -40,3 +40,7 @@ export async function createUser(name: string, email: string, password: string) 
 
   return newUser;
 }
+
+export async function deleteUser(userId: number) {
+  await userRepository.deleteUserAndCredentials(userId);
+}

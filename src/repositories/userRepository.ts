@@ -15,3 +15,17 @@ export async function createUser(name: string, email: string, password: string) 
     },
   });
 }
+
+export async function deleteUserAndCredentials(userId: number) {
+  await prisma.credential.deleteMany({
+    where: {
+      userId,
+    },
+  });
+
+  return prisma.user.delete({
+    where: {
+      id: userId,
+    },
+  });
+}
