@@ -19,3 +19,15 @@ export async function createCredential(req: Request, res: Response, next: NextFu
     next(error);
   }
 }
+
+export async function getAllCredentials(req: Request, res: Response, next: NextFunction): Promise<void> {
+  const userId = req.user.id;
+
+  try {
+    const credentials = await credentialService.getAllCredentials(userId);
+
+    res.status(200).json(credentials);
+  } catch (error) {
+    next(error);
+  }
+}

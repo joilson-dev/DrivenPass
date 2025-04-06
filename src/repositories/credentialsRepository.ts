@@ -21,3 +21,11 @@ export async function createCredential(title: string, url: string, username: str
     },
   });
 }
+
+export async function findAllCredentials(userId: number) {
+  return prisma.credential.findMany({
+    where: {
+      userId,
+    },
+  });
+}
