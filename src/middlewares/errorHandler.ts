@@ -22,7 +22,7 @@ export function errorHandler(
   const message = "message" in err ? err.message : "Erro interno do servidor";
   const statusCode = statusCodes[errorType] || 500;
 
-  console.error(`[${errorType}] ${message}`);
+  // console.error(`[${errorType}] ${message}`);
 
   res.status(statusCode).json({ error: message });
 }

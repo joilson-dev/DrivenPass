@@ -33,5 +33,5 @@ model Credential {
   password String
   userId   Int
   user     User     @relation(fields: [userId], references: [id])
-  @@map("Credentials")
+  @@map("credentials")
 }
