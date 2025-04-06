@@ -26,7 +26,7 @@ export async function signUp(
   try {
     const newUser = await authService.createUser(name, email, password);
 
-    res.status(201).json({ message: 'Usuário criado com sucesso', user: newUser });
+    res.status(201).json({ message: 'Usuário criado com sucesso'});
   } catch (error) {
     next(error);
   }
