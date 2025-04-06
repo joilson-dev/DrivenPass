@@ -37,3 +37,29 @@ export async function getAllCredentials(userId: number) {
 
   return credentials;
 }
+
+
+export async function updateCredential(
+  credentialId: number,
+  title: string,
+  url: string,
+  username: string,
+  password: string
+) {
+  let hashedPassword = password;
+
+  if (password) {
+    const saltRounds = 10;
+    hashedPassword = await bcrypt.hash(password, saltRounds);
+  }
+
+  const updatedCredential = await credentialRepository.updateCredential(
+    credentialId,
+    title,
+    url,
+    username,
+    hashedPassword
+  );
+
+  return updatedCredential;
+}

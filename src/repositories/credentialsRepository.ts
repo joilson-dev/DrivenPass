@@ -29,3 +29,29 @@ export async function findAllCredentials(userId: number) {
     },
   });
 }
+
+export async function updateCredential(
+  credentialId: number,
+  title: string,
+  url: string,
+  username: string,
+  password: string
+) {
+  const existingCredential = await prisma.credential.findUnique({
+    where: { id: credentialId },
+  });
+
+  if (!existingCredential) {
+    throw { type: 'NotFound', message: 'Credencial não encontrada' };
+  }
+
+  return prisma.credential.update({
+    where: { id: credentialId },
+    data: {
+      title,
+      url,
+      username,
+      password,
+    },
+  });
+}

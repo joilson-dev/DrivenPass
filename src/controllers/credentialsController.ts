@@ -31,3 +31,21 @@ export async function getAllCredentials(req: Request, res: Response, next: NextF
     next(error);
   }
 }
+
+export async function updateCredential(req: Request, res: Response, next: NextFunction): Promise<void> {
+  const { title, url, username, password } = req.body;
+  const credentialId = parseInt(req.params.id, 10);
+
+  if (isNaN(credentialId)) {
+    res.status(400).json({ message: 'ID de credencial inválido' });
+    return
+  }
+
+  try {
+    await credentialService.updateCredential(credentialId, title, url, username, password);
+
+    res.status(204).send();
+  } catch (error) {
+    next(error);
+  }
+}
