@@ -10,8 +10,13 @@
       "bcryptjs",
       "./src/protocols/express.d.ts"
     ],
+    "rootDir": "./"
   },
+  "include": [
+    "src/**/*.ts",
+    "prisma/**/*.ts"
+  ],
   "ts-node": {
     "esm": true
-  },
+  }
 }
